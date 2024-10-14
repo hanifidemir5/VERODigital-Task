@@ -1,8 +1,13 @@
 <?php
 // Define your routes
-$routes = [
-    '/' => 'views/login.php',
-    '/list' => 'views/list.php',
-    '/details' => 'views/details.php'
+return [
+    '/' => function(){
+        echo "index page";
+        // include "views/list.php";
+    },
+    '/details' => function (){
+        // include 'details.php';
+        echo "details page";
+    }
 ];
 ?>
