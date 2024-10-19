@@ -1,12 +1,10 @@
 <?php
     $uri = parse_url($_SERVER['REQUEST_URI'])['path'];
 
-    echo $uri;
-
     $routes = [
-        '/VERODigital-Task/' => 'controllers/index.php',
-        '/VERODigital-Task/list' => 'controllers/list.php',
-        '/VERODigital-Task/details' => 'conrollers/details.php',
+        '/' => 'controllers/index.php',
+        '/list' => 'controllers/list.php',
+        '/details' => 'conrollers/details.php',
     ];
 
 
