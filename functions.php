@@ -83,19 +83,13 @@ function getAPIData(){
 function fetchAndSaveData() {
     $jsonFilePath = 'data/tasks.json'; // Path to the JSON file
 
-    // Check if the JSON file exists and is not older than 60 minutes
-    if (file_exists($jsonFilePath) && (time() - filemtime($jsonFilePath) < 3600)) {
-        // Load data from the JSON file
-        return json_decode(file_get_contents($jsonFilePath), true);
-    } else {
-        // Fetch new data from the API
-        $data = getAPIData();
+    // Fetch new data from the API
+    $data = getAPIData();
 
-        $jsonFilePath = 'data/tasks.json';
+    $jsonFilePath = 'data/tasks.json';
 
-        file_put_contents($jsonFilePath, json_encode($data, JSON_PRETTY_PRINT));
-        return $data; // Return the newly fetched data
-    }
+    file_put_contents($jsonFilePath, json_encode($data, JSON_PRETTY_PRINT));
+    return $data; // Return the newly fetched data
 }
 
 // Schedule the fetchAndSaveData function to run every hour
