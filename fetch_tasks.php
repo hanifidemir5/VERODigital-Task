@@ -1,4 +1,7 @@
 <?php
+
+require "functions.php";
+
 header('Content-Type: application/json');
 
 // Assuming your data is stored in 'data/tasks.json'
@@ -7,21 +10,18 @@ $searchTerm = isset($_GET['search']) ? strtolower($_GET['search']) : '';
 // Load the data from the JSON file
 $data = fetchAndSaveData(); // Adjust this to your data fetching logic
 
+$jsonFilePath = 'data/tasks.json';
+
+$dataFileContent = file_get_contents($jsonFilePath);
+
+$data = json_decode($dataFileContent, true);
+
 // Filter the data based on the search term
-if($searchTerm)
-{
-    $filteredData = array_filter($data, function ($task) use ($searchTerm) {
-        return (
-            strpos(strtolower($task['task']), $searchTerm) !== false ||
-            strpos(strtolower($task['title']), $searchTerm) !== false ||
-            strpos(strtolower($task['description']), $searchTerm) !== false
-        );
-    });
+foreach ($data as $task) {
+    echo "<tr>";
+    echo "<td>" . htmlspecialchars($task['task']) . "</td>";
+    echo "<td>" . htmlspecialchars($task['title']) . "</td>";
+    echo "<td>" . htmlspecialchars($task['description']) . "</td>";
+    echo "<td style='background-color:" . htmlspecialchars($task['colorCode']) . "'></td>";
+    echo "</tr>";
 }
-else{
-    return $data;
-}
-
-
-// Return the filtered data as JSON
-echo json_encode($filteredData);
