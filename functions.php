@@ -91,34 +91,3 @@ function fetchAndSaveData() {
     file_put_contents($jsonFilePath, json_encode($data, JSON_PRETTY_PRINT));
     return $data; // Return the newly fetched data
 }
-
-// Schedule the fetchAndSaveData function to run every hour
-// function schedule(callable $task, CronExpression $cron): void {
-//     $now = new DateTime();
-//     if ($cron->isDue($now)) {
-//         Loop::futureTick($task);
-//     }
-
-//     $schedule = function () use (&$schedule, $task, $cron) {
-//         $task();
-//         $now = new DateTime();
-//         $nextDue = $cron->getNextRunDate($now);
-//         Loop::addTimer($nextDue->getTimestamp() - $now->getTimestamp(), $schedule);
-//     };
-
-//     $nextDue = $cron->getNextRunDate($now);
-//     Loop::addTimer($nextDue->getTimestamp() - $now->getTimestamp(), $schedule);
-// }
-
-// // Schedule the fetchAndSaveData function to run every hour
-// $cron = new CronExpression('0 * * * *'); // Run at the start of every hour
-// $task = function () {
-//     $data = fetchAndSaveData();
-//     echo date('Y-m-d H:i:s') . ": Fetched and saved data.\n";
-// };
-
-// // Schedule the task
-// schedule($task, $cron);
-
-// // Start the event loop
-// Loop::run();
