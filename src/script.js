@@ -23,6 +23,11 @@ document.addEventListener('DOMContentLoaded', function() {
             updateTable(originalData); // Reset table to the original data
         });
     }
+
+    
+    refreshTable();
+    
+    setInterval(refreshTable, 1 * 60 * 1000);
 });
 
 // Function to fetch and decode JSON data
@@ -76,4 +81,20 @@ function updateTable(data) {
 
         tasksBody.appendChild(row);
     });
+}
+
+
+function refreshTable() {
+    fetch('fetch_tasks.php') // The PHP file that returns updated data
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Failed to fetch data: ${response.status}`);
+            }
+            return response.text(); // Assuming the PHP file returns HTML for table rows
+        })
+        .then(html => {
+            console.log(html); // Log the actual response after it resolves
+            document.querySelector('#table-container tbody').innerHTML = html; // Replace the table body
+        })
+        .catch(error => console.error('Error refreshing table:', error));
 }
