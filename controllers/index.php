@@ -33,7 +33,15 @@ function searchTasks($searchTerm, $data) {
 //     return $data["BusinessUnitKey"] == null;
 // });
 
+$data_file = './data/tasks.json';
 
-$decoded_data = fetchAndSaveData();
+$data_content = file_get_contents($data_file);
+$decoded_data = json_decode($data_content, true);
+
+if (isset($_GET['action']) && $_GET['action'] == 'fetch_data') {
+    header('Content-Type: application/json');
+    echo json_encode($decoded_data);
+    exit;
+}
 
 require "views/index.view.php";
