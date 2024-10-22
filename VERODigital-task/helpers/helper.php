@@ -75,13 +75,26 @@ function getAPIData(){
 
 function fetchAndSaveData() {
     $jsonFilePath = 'public/src/data/tasks.json'; // Path to the JSON file
-    
+    $directoryPath = dirname($jsonFilePath); // Get the directory path
+
+    // Check if the directory exists, if not, create it
+    if (!is_dir($directoryPath)) {
+        \Log::info('Directory does not exist. Creating directory.', ['path' => $directoryPath]);
+
+        // Create the directory with appropriate permissions
+        mkdir($directoryPath, 0755, true); // true enables recursive directory creation
+
+        \Log::info('Directory created successfully.', ['path' => $directoryPath]);
+    }
+
     // Log the JSON file path
     \Log::info('JSON file path:', ['path' => $jsonFilePath]);
 
     // Fetch new data from the API
     $data = getAPIData(); // Ensure this function is defined as well
 
+    // Save the new data into the JSON file
     file_put_contents($jsonFilePath, json_encode($data, JSON_PRETTY_PRINT));
+
     return $data; // Return the newly fetched data
 }
