@@ -13,4 +13,4 @@ Schedule::call(function () {
     } catch (\Exception $e) {
         \Log::error('Scheduled task failed: ' . $e->getMessage());
     }
-})->everyMinute();
+})->hourly();

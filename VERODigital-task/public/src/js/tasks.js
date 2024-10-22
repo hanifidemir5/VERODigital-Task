@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const reader = new FileReader(); // Create a FileReader object
             reader.onload = function(e) {
                 // Display the image in the preview container
-                imagePreviewContainer.innerHTML = '<img src="' + e.target.result + '" alt="Selected Image" style="max-width: 100%;">';
+                imagePreviewContainer.innerHTML = '<img src="' + e.target.result + '" alt="Selected Image" style="max-width:350px; max-height:600px;">';
             }
             reader.readAsDataURL(file); // Read the file as a data URL
         }
@@ -128,6 +128,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         else {
             const formData = new FormData();
+            const file = fileInput.files[0];
             formData.append('file-upload', file);
 
             fetch('/upload', { // Specify the PHP script to handle the upload
@@ -145,12 +146,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 responseMessage.innerHTML =  data
                 responseMessage.style.display = "block"
                 responseMessage.style.color = "#04AA6D"
-                    
-                // Reset the file input
-                
             })
             .catch(error => {
-                console.error('Error:', error); // Handle error
+                console.error('Error:', error);
                 responseMessage.innerHTML = error
                 responseMessage.style.display = "block"
                 responseMessage.style.color = "$d33"
@@ -159,11 +157,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
     });
 
-    checkFileInput();
+    function startHourlyUpdates() {
+        const now = new Date();
+        const nextUpdate = new Date();
+        nextUpdate.setHours(now.getHours() + 1); 
+        nextUpdate.setMinutes(1); 
+        nextUpdate.setSeconds(0); 
+        nextUpdate.setMilliseconds(0);
+        const delay = nextUpdate - now;
 
-    checkForUpdates();
+        setTimeout(function() {
+            checkForUpdates();
+            setInterval(checkForUpdates, 60 * 60 * 1000);
+        }, delay);
+    }
     
-    setInterval(checkForUpdates, 60 * 60 * 1000);
+    checkFileInput();
+    
+    startHourlyUpdates();
 });
 
 // Function to fetch and decode JSON data
